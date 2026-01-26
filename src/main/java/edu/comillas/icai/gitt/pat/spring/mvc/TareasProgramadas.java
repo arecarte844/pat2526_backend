@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class TareasProgramadas {
     private Logger logger = LoggerFactory.getLogger(getClass());
-
+    private String respuesta_ant;
     @Scheduled(fixedRate = 300000)
     public void ritmoFijo() {
         logger.info("Me ejecuto cada 5 minutos");
@@ -27,6 +27,36 @@ public class TareasProgramadas {
 
     @Scheduled(fixedRate = 60000)
     public void consultarAPI() {
+        logger.info("La url es: https://xkcd.com/info.0.json");
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            //headers.set("Cabecera", "Valor");
+            RestTemplate restTemplate=new RestTemplate();
+            String response_ant;
+            ResponseEntity<String> response = new RestTemplate().exchange(
+                    "https://xkcd.com/info.0.json", HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    String.class
+            );
+            //=  restTemplate.getForObject("https://xkcd.com/info.0.json", String.class);
 
+
+            if (response.getStatusCode()== HttpStatus.OK) {
+                String respuesta = response.getBody();
+                logger.info("He recibido respuesta");
+                if (respuesta!=this.respuesta_ant) {
+                    logger.info(respuesta);
+                }
+                this.respuesta_ant=respuesta;
+            }
+
+
+
+
+        } catch (HttpStatusCodeException e) {
+            logger.error("Error {} en la respuesta", e.getStatusCode());
+        } catch (Exception e) {
+            logger.error("Error inesperado en la llamada del API", e);
+        }
     }
 }
