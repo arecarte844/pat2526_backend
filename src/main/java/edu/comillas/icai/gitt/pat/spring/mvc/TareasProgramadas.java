@@ -5,6 +5,7 @@ package edu.comillas.icai.gitt.pat.spring.mvc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 public class TareasProgramadas {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private String respuesta_ant;
+    @Value("${url}") private String url;
     @Scheduled(fixedRate = 300000)
     public void ritmoFijo() {
         logger.info("Me ejecuto cada 5 minutos");
