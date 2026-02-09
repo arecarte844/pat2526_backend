@@ -30,14 +30,14 @@ public class TareasProgramadas {
     @Scheduled(fixedRate = 60000)
     public void consultarAPI() {
         //hola
-        logger.info("La url es: https://xkcd.com/info.0.json");
+        logger.info("La url es: "+url);
         try {
             HttpHeaders headers = new HttpHeaders();
             //headers.set("Cabecera", "Valor");
             //RestTemplate restTemplate=new RestTemplate();
 
             ResponseEntity<String> response = new RestTemplate().exchange(
-                    "https://xkcd.com/info.0.json", HttpMethod.GET,
+                    url, HttpMethod.GET,
                     new HttpEntity<>(headers),
                     String.class
             );
